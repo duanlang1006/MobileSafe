@@ -136,10 +136,17 @@ public class TaskManagerActivity extends Activity implements View.OnClickListene
             user_listveiw.setVisibility(View.VISIBLE);
             system_listview.setVisibility(View.INVISIBLE);
         } else if (v.getId() == R.id.btn_task_system) {
+            if (system_header == null) {
+                system_header = new TextView(getApplicationContext());
+                system_header.setText("Killing system processes will lead to system instability");
+                system_header.setBackgroundColor(Color.RED);
+                system_listview.addHeaderView(system_header);
+            }
             showUserApp = false;
             btn_user.setBackgroundResource(R.drawable.btn_normal);
             btn_system.setBackgroundResource(R.drawable.btn_pressed);
             user_listveiw.setVisibility(View.INVISIBLE);
+            system_header.setVisibility(View.VISIBLE);
             system_listview.setVisibility(View.VISIBLE);
         }
     }
