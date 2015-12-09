@@ -117,10 +117,11 @@ public class ServiceManagerActivity extends Activity implements AdapterView.OnIt
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             View view;
-            ViewHolder holder = new ViewHolder();
+            ViewHolder holder;
 
             if (convertView == null) {
-                view = convertView.inflate(getApplicationContext(), R.layout.service_item, null);
+                view = View.inflate(getApplicationContext(), R.layout.service_item, null);
+                holder = new ViewHolder();
                 holder.appIcon = (ImageView) view.findViewById(R.id.imgApp);
                 holder.tvAppLabel = (TextView) view.findViewById(R.id.tvAppLabel);
                 holder.tvProcessId = (TextView) view.findViewById(R.id.tvProcessId);
