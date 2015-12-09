@@ -51,7 +51,6 @@ public class AppLockActivity extends Activity implements AdapterView.OnItemClick
     private UserManager mUM;
     private LauncherApps mLauncherApps;
 
-
     private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -72,21 +71,21 @@ public class AppLockActivity extends Activity implements AdapterView.OnItemClick
         intentService = new Intent(this, WatchDogService.class);
         startService(intentService);
 
+        appInfoProvide = new AppInfoProvide(this);
+        appLockerData = new AppLockerData(this);
+
+        lockedPacknames = appLockerData.getAll();
+
         mPM = this.getPackageManager();
         mLauncherApps = (LauncherApps) this.getSystemService(Context.LAUNCHER_APPS_SERVICE);
     }
 
     private void initView() {
 
-        app_listview = (ListView) findViewById(R.id.app_listview);
         app_listview_loading = findViewById(R.id.applock_loading);
-
-        appInfoProvide = new AppInfoProvide(this);
-        appLockerData = new AppLockerData(this);
-        lockedPacknames = appLockerData.getAll();
-
         app_listview_loading.setVisibility(View.VISIBLE);
 
+        app_listview = (ListView) findViewById(R.id.app_listview);
         app_listview.setOnItemClickListener(this);
     }
 

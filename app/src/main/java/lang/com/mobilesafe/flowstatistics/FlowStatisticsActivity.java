@@ -1,7 +1,10 @@
 package lang.com.mobilesafe.flowstatistics;
 
 import android.app.Activity;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.text.format.Formatter;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,12 +26,21 @@ public class FlowStatisticsActivity extends Activity {
     private final String LOG_TAG = "FlowStatisticsActivity";
 
     private ListView flow_listview;
+    private View flow_loading;
 
     private FlowAdapter flowAdapter;
 
     private FlowInfoProvide flowInfoProvide;
 
     private List<FlowInfo> flowInfos;
+
+    private Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            flow_loading.setVisibility(View.GONE);
+            flow_listview.setAdapter(flowAdapter);
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,16 +51,29 @@ public class FlowStatisticsActivity extends Activity {
     }
 
     private void initView() {
+        flow_loading = (View) findViewById(R.id.flow_info_loading);
+        flow_loading.setVisibility(View.VISIBLE);
         flow_listview = (ListView) findViewById(R.id.flow_listview);
-        flow_listview.setAdapter(flowAdapter);
     }
 
     private void init() {
         flowInfoProvide = new FlowInfoProvide(this);
-        flowInfos = flowInfoProvide.getFlowInfo();
         flowAdapter = new FlowAdapter();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        AsyncTask.execute(mRefreshFlowRunnable);
+    }
+
+    private final Runnable mRefreshFlowRunnable = new Runnable() {
+        @Override
+        public void run() {
+            flowInfos = flowInfoProvide.getFlowInfo();
+            handler.sendEmptyMessage(0);
+        }
+    };
 
     private class FlowAdapter extends BaseAdapter {
 
