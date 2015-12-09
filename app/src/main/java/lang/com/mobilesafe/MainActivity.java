@@ -20,6 +20,7 @@ import lang.com.mobilesafe.appmanager.AppManagerActivity;
 import lang.com.mobilesafe.blacklist.BlackListActivity;
 import lang.com.mobilesafe.flowstatistics.FlowStatisticsActivity;
 import lang.com.mobilesafe.mobileantivirus.MobileAntivirusActivity;
+import lang.com.mobilesafe.servicemanager.ServiceManagerActivity;
 import lang.com.mobilesafe.settings.SettingsActivity;
 import lang.com.mobilesafe.systemoptimization.SystemOptimizationActivity;
 import lang.com.mobilesafe.taskmanager.TaskManagerActivity;
@@ -79,36 +80,41 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
                 startActivity(intent);
                 break;
             case 4:
+                //服务管理
+                intent = new Intent(this, ServiceManagerActivity.class);
+                startActivity(intent);
+                break;
+            case 5:
                 //流量统计
                 intent = new Intent(this, FlowStatisticsActivity.class);
                 startActivity(intent);
                 break;
-            case 5:
+            case 6:
                 //手机杀毒
                 intent = new Intent(this, MobileAntivirusActivity.class);
                 startActivity(intent);
                 break;
-            case 6:
+            case 7:
                 //系统优化
                 intent = new Intent(this, SystemOptimizationActivity.class);
                 startActivity(intent);
                 break;
-            case 7:
+            case 8:
                 //系统优化
                 intent = new Intent(this, AppLockActivity.class);
                 startActivity(intent);
                 break;
-            case 8:
+            case 9:
                 //其他工具
                 intent = new Intent(this, ToolsActivity.class);
                 startActivity(intent);
                 break;
-            case 9:
+            case 10:
                 //设置中心
                 intent = new Intent(this, SettingsActivity.class);
                 startActivity(intent);
                 break;
-            case 10:
+            case 11:
                 //其他
                 break;
 
@@ -130,10 +136,18 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
         };
 
         public final String[] names = {
-                "TheftProof", "BlackList", "AppManager",
-                "TaskManager", "FlowStatistics", "MobileAntivirus",
-                "SystemOptimization", "AppLock", "Tools",
-                "Settings", "Else"
+                "TheftProof",
+                "BlackList",
+                "AppManager",
+                "TaskManager",
+                "ServiceManager",
+                "FlowStatistics",
+                "MobileAntivirus",
+                "SystemOptimization",
+                "AppLock",
+                "Tools",
+                "Settings",
+                "Else"
         };
 
         public MainGridAdapter(Context context) {

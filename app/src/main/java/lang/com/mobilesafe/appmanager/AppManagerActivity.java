@@ -214,7 +214,7 @@ public class AppManagerActivity extends Activity implements AdapterView.OnItemCl
 
         Object obj = appmanager_listview.getItemAtPosition(position);
 
-        if (obj instanceof AppInfo) {
+        if (obj != null) {
             AppInfo appinfo = (AppInfo) obj;
             clickItemPackageName = appinfo.getPackname();
             clickItemAppName = appinfo.getAppname();

@@ -52,6 +52,13 @@
             </intent-filter>
         </activity>
 
+        <!-- 服务管理 -->
+        <activity android:name=".servicemanager.ServiceManagerActivity">
+            <intent-filter>
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
         <!-- 流量统计 -->
         <activity android:name=".flowstatistics.FlowStatisticsActivity">
             <intent-filter>
