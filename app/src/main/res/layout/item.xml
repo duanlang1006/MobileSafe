@@ -10,7 +10,7 @@
         android:id="@+id/item_icon"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:src="@drawable/widget" />
+        android:src="@drawable/ic_launcher" />
 
     <TextView
         android:id="@+id/item_name"

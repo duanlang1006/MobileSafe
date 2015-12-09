@@ -122,16 +122,16 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
         private Context context;
 
         public final int[] icons = {
-                R.drawable.widget, R.drawable.widget, R.drawable.widget,
-                R.drawable.widget, R.drawable.widget, R.drawable.widget,
-                R.drawable.widget, R.drawable.widget, R.drawable.widget,
-                R.drawable.widget, R.drawable.widget, R.drawable.widget,
-                R.drawable.widget
+                R.drawable.ic_launcher, R.drawable.ic_launcher, R.drawable.ic_launcher,
+                R.drawable.ic_launcher, R.drawable.ic_launcher, R.drawable.ic_launcher,
+                R.drawable.ic_launcher, R.drawable.ic_launcher, R.drawable.ic_launcher,
+                R.drawable.ic_launcher, R.drawable.ic_launcher, R.drawable.ic_launcher,
+                R.drawable.ic_launcher
         };
 
         public final String[] names = {
                 "TheftProof", "BlackList", "AppManager",
-                "ProgressManager", "FlowStatistics", "MobileAntivirus",
+                "TaskManager", "FlowStatistics", "MobileAntivirus",
                 "SystemOptimization", "AppLock", "Tools",
                 "Settings", "Else"
         };

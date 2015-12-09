@@ -42,7 +42,7 @@ import lang.com.mobilesafe.utils.DensityUtil;
  * Created by android on 12/7/15.
  */
 public class AppManagerActivity extends Activity implements AdapterView.OnItemClickListener, View.OnClickListener, AbsListView.OnScrollListener {
-    private final String LOG_TAG = "AppManager";
+    private final String LOG_TAG = "AppManager_log";
 
     private PackageManager pm;
 
@@ -97,6 +97,7 @@ public class AppManagerActivity extends Activity implements AdapterView.OnItemCl
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.i(LOG_TAG, "onCreate ");
         setContentView(R.layout.appmanager_layout);
         initViews();
         init();
@@ -147,6 +148,7 @@ public class AppManagerActivity extends Activity implements AdapterView.OnItemCl
     };
 
     private void initAppInfo() {
+        Log.i(LOG_TAG, "initAppInfo ");
         userAppInfo = new ArrayList<>();
         systemAppInfo = new ArrayList<>();
 
@@ -192,6 +194,7 @@ public class AppManagerActivity extends Activity implements AdapterView.OnItemCl
 
     @Override
     protected void onDestroy() {
+        Log.i(LOG_TAG, "onDestroy ");
         dismissPopupWindow();
         super.onDestroy();
     }
@@ -265,6 +268,7 @@ public class AppManagerActivity extends Activity implements AdapterView.OnItemCl
     }
 
     private void shareApplication() {
+        Log.i(LOG_TAG, "shareApplication ");
         Intent intent = new Intent();
         intent.setAction("android.intent.action.SEND");
         intent.addCategory("android.intent.category.DEFAULT");
@@ -285,6 +289,7 @@ public class AppManagerActivity extends Activity implements AdapterView.OnItemCl
     }
 
     private void startApplicatio() {
+        Log.i(LOG_TAG, "startApplicatio ");
         dismissPopupWindow();
         Intent intent = new Intent();
         PackageInfo packinfo;
@@ -292,17 +297,19 @@ public class AppManagerActivity extends Activity implements AdapterView.OnItemCl
         try {
             packinfo = pm.getPackageInfo(clickItemPackageName, PackageManager.GET_ACTIVITIES);
             ActivityInfo[] activityinfos = packinfo.activities;
+            Log.i(LOG_TAG, "activityinfos : " + activityinfos);
 
             if (activityinfos != null && activityinfos.length > 0) {
                 String className = activityinfos[0].name;
                 intent.setClassName(clickItemPackageName, className);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);             //new task to get activitytask
                 startActivity(intent);
             } else {
-                Toast.makeText(this, "launcher fail", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "launch fail", Toast.LENGTH_SHORT).show();
             }
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
-            Toast.makeText(this, "launcher fail", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "launch fail", Toast.LENGTH_SHORT).show();
         }
 
     }
@@ -310,10 +317,14 @@ public class AppManagerActivity extends Activity implements AdapterView.OnItemCl
     @Override
     public void onScrollStateChanged(AbsListView view, int scrollState) {
         //// TODO: 12/8/15
+        Log.i(LOG_TAG, "onScrollStateChanged  scrollState : " + scrollState);
     }
 
     @Override
     public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+        Log.i(LOG_TAG, "onScroll firstVisibleItem : " + firstVisibleItem +
+                "  visibleItemCount : " + visibleItemCount +
+                "  totalItemCount : " + totalItemCount);
         dismissPopupWindow();
     }
 

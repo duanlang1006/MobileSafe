@@ -12,7 +12,7 @@ import java.util.List;
  * Created by android on 12/8/15.
  */
 public class AppInfoProvide {
-    private static final String TAG = "AppInfoProvide";
+    private final String LOG_TAG = "AppInfoProvide";
 
     private PackageManager pm;
 
