@@ -1,7 +1,6 @@
 package lang.com.mobilesafe.servicemanager;
 
 import android.app.Activity;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,15 +22,9 @@ import lang.com.mobilesafe.utils.ServiceInfoProvide;
  * Created by android on 12/9/15.
  */
 public class ServiceManagerActivity extends Activity implements AdapterView.OnItemClickListener {
-    private final String LOG_TAG = "servicemanager_log";
-
-    private ListView servicelistview;
-
-    private PackageManager pm;
+    private final String LOG_TAG = "ServiceManager_log";
 
     private List<ServiceInfo> runningServices;
-
-    private ServiceInfoProvide serviceInfoProvide;
 
     private ServiceAdapter serviceAdapter;
 
@@ -44,13 +37,13 @@ public class ServiceManagerActivity extends Activity implements AdapterView.OnIt
     }
 
     private void initView() {
-        servicelistview = (ListView) findViewById(R.id.service_list);
-        servicelistview.setOnItemClickListener(this);
-        servicelistview.setAdapter(serviceAdapter);
+        ListView serviceListView = (ListView) findViewById(R.id.service_list);
+        serviceListView.setOnItemClickListener(this);
+        serviceListView.setAdapter(serviceAdapter);
     }
 
     private void init() {
-        serviceInfoProvide = new ServiceInfoProvide(this);
+        ServiceInfoProvide serviceInfoProvide = new ServiceInfoProvide(this);
         runningServices = serviceInfoProvide.getRunningService();
         serviceAdapter = new ServiceAdapter();
     }
@@ -63,7 +56,7 @@ public class ServiceManagerActivity extends Activity implements AdapterView.OnIt
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        String clickItemPackageName = null;
+        String clickItemPackageName;
         Object object = runningServices.get(position);
 
         if (object != null) {
@@ -75,8 +68,8 @@ public class ServiceManagerActivity extends Activity implements AdapterView.OnIt
 
     //强制杀死服务所在应用程序
     private void forceStopAPK(String pkgName) {
-        Process sh = null;
-        DataOutputStream os = null;
+        Process sh;
+        DataOutputStream os;
         try {
             sh = Runtime.getRuntime().exec("su");
             os = new DataOutputStream(sh.getOutputStream());

@@ -80,25 +80,24 @@ public class AppManagerActivity extends Activity implements AdapterView.OnItemCl
 //        }
 //    };
 
-    private mHandler handler;
+    private MyHandler handler;
 
-    static class mHandler extends Handler {
+    static class MyHandler extends Handler {
         WeakReference<AppManagerActivity> mActivityWeakReference;
 
-        mHandler(AppManagerActivity activity) {
+        MyHandler(AppManagerActivity activity) {
             mActivityWeakReference = new WeakReference<>(activity);
         }
 
         @Override
         public void handleMessage(Message msg) {
             AppManagerActivity activity = mActivityWeakReference.get();
-            if (msg.what == LOAD_DONE) {
+            if (activity != null && msg.what == LOAD_DONE) {
                 activity.app_listview_loading.setVisibility(View.INVISIBLE);
                 activity.appmanager_listview.setAdapter(mAppManagerAdapter);
             }
         }
     }
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,7 +112,7 @@ public class AppManagerActivity extends Activity implements AdapterView.OnItemCl
         pm = this.getPackageManager();
         appInfoProvide = new AppInfoProvide(this);
         mAppManagerAdapter = new AppManagerAdapter();
-        handler = new mHandler(this);
+        handler = new MyHandler(this);
     }
 
     private void initViews() {

@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import java.lang.ref.WeakReference;
 import java.util.List;
 
 import lang.com.mobilesafe.R;
@@ -28,19 +29,38 @@ public class FlowStatisticsActivity extends Activity {
     private ListView flow_listview;
     private View flow_loading;
 
-    private FlowAdapter flowAdapter;
-
     private FlowInfoProvide flowInfoProvide;
 
     private List<FlowInfo> flowInfos;
 
-    private Handler handler = new Handler() {
+//    private Handler handler1 = new Handler() {
+//        @Override
+//        public void handleMessage(Message msg) {
+//            flow_loading.setVisibility(View.GONE);
+//            flow_listview.setAdapter(flowAdapter);
+//        }
+//    };
+
+
+    private static FlowAdapter flowAdapter;
+    private MyHandler handler;
+
+    static class MyHandler extends Handler {
+        WeakReference<FlowStatisticsActivity> activityWeakReference;
+
+        public MyHandler(FlowStatisticsActivity activity) {
+            activityWeakReference = new WeakReference<>(activity);
+        }
+
         @Override
         public void handleMessage(Message msg) {
-            flow_loading.setVisibility(View.GONE);
-            flow_listview.setAdapter(flowAdapter);
+            FlowStatisticsActivity activity = activityWeakReference.get();
+            if (activity != null) {
+                activity.flow_loading.setVisibility(View.GONE);
+                activity.flow_listview.setAdapter(flowAdapter);
+            }
         }
-    };
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +79,7 @@ public class FlowStatisticsActivity extends Activity {
     private void init() {
         flowInfoProvide = new FlowInfoProvide(this);
         flowAdapter = new FlowAdapter();
+        handler = new MyHandler(this);
     }
 
     @Override

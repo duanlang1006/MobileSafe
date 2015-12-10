@@ -36,9 +36,6 @@ public class TaskManagerActivity extends Activity implements View.OnClickListene
     private Button btn_user;
     private Button btn_system;
 
-    // 用于获取手机中的进程
-    private ProcessInfoProvide processInfoProvide;
-
     // 显示用户进程
     private ListView user_listveiw;
     // 显示系统进程
@@ -67,9 +64,9 @@ public class TaskManagerActivity extends Activity implements View.OnClickListene
     }
 
     private void init() {
-        processInfoProvide = new ProcessInfoProvide(this);
-        userProcessInfos = new ArrayList<ProcessInfo>();
-        systemProcessInfos = new ArrayList<ProcessInfo>();
+        ProcessInfoProvide processInfoProvide = new ProcessInfoProvide(this);
+        userProcessInfos = new ArrayList<>();
+        systemProcessInfos = new ArrayList<>();
 
         List<ProcessInfo> mRunningProcessInfo = processInfoProvide.getProgressInfo();
 
@@ -189,7 +186,7 @@ public class TaskManagerActivity extends Activity implements View.OnClickListene
         int count = 0;
         long killsize = 0;
 
-        List<ProcessInfo> killProccessInfo = new ArrayList<ProcessInfo>();
+        List<ProcessInfo> killProccessInfo = new ArrayList<>();
 
         if (showUserApp) {
             for (ProcessInfo info : userProcessInfos) {

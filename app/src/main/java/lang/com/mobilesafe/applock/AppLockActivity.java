@@ -21,6 +21,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import java.lang.ref.WeakReference;
 import java.util.List;
 
 import lang.com.mobilesafe.R;
@@ -38,26 +39,41 @@ public class AppLockActivity extends Activity implements AdapterView.OnItemClick
     private ListView app_listview;
     private View app_listview_loading;
 
-    private Intent intentService;
-
     private AppInfoProvide appInfoProvide;
-    private AppLockerData appLockerData;
 
     private List<String> lockedPacknames;
 
     private List<AppInfo> appInfos;
 
-    private PackageManager mPM;
     private UserManager mUM;
-    private LauncherApps mLauncherApps;
 
-    private Handler handler = new Handler() {
+//    private Handler handler = new Handler() {
+//        @Override
+//        public void handleMessage(Message msg) {
+//            app_listview_loading.setVisibility(View.INVISIBLE);
+//            app_listview.setAdapter(new AppLockAdapter());
+//        }
+//    };
+
+    private MyHandler handler;
+    private static AppLockAdapter appLockAdapter;
+
+    private static class MyHandler extends Handler {
+        WeakReference<AppLockActivity> activityWeakReference;
+
+        public MyHandler(AppLockActivity activity) {
+            activityWeakReference = new WeakReference<AppLockActivity>(activity);
+        }
+
         @Override
         public void handleMessage(Message msg) {
-            app_listview_loading.setVisibility(View.INVISIBLE);
-            app_listview.setAdapter(new AppLockAdapter());
+            AppLockActivity activity = activityWeakReference.get();
+            if (activity != null) {
+                activity.app_listview_loading.setVisibility(View.INVISIBLE);
+                activity.app_listview.setAdapter(appLockAdapter);
+            }
         }
-    };
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,16 +84,18 @@ public class AppLockActivity extends Activity implements AdapterView.OnItemClick
     }
 
     private void init() {
-        intentService = new Intent(this, WatchDogService.class);
+        Intent intentService = new Intent(this, WatchDogService.class);
         startService(intentService);
 
         appInfoProvide = new AppInfoProvide(this);
-        appLockerData = new AppLockerData(this);
+        AppLockerData appLockerData = new AppLockerData(this);
 
         lockedPacknames = appLockerData.getAll();
 
-        mPM = this.getPackageManager();
-        mLauncherApps = (LauncherApps) this.getSystemService(Context.LAUNCHER_APPS_SERVICE);
+        PackageManager mPM = this.getPackageManager();
+        LauncherApps mLauncherApps = (LauncherApps) this.getSystemService(Context.LAUNCHER_APPS_SERVICE);
+        appLockAdapter = new AppLockAdapter();
+        handler = new MyHandler(this);
     }
 
     private void initView() {
@@ -160,7 +178,7 @@ public class AppLockActivity extends Activity implements AdapterView.OnItemClick
             ViewHolder holder;
 
             if (null == convertView) {
-                view = convertView.inflate(getApplicationContext(), R.layout.app_list, null);
+                view = View.inflate(getApplicationContext(), R.layout.app_list, null);
                 holder = new ViewHolder();
                 holder.app_icon = (ImageView) view.findViewById(R.id.applock_icon);
                 holder.app_status = (ImageView) view.findViewById(R.id.applock_status);
