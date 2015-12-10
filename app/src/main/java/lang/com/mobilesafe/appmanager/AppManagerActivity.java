@@ -30,7 +30,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.File;
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import lang.com.mobilesafe.R;
@@ -66,32 +68,36 @@ public class AppManagerActivity extends Activity implements AdapterView.OnItemCl
     private String clickItemPackageName;
     private String clickItemAppName;
 
-    private Handler handler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            if (msg.what == LOAD_DONE) {
-                app_listview_loading.setVisibility(View.INVISIBLE);
-                appmanager_listview.setAdapter(new AppManagerAdapter());
-            }
-        }
-    };
+    private static AppManagerAdapter mAppManagerAdapter;
 
-//    static class mhandler extends Handler {
-//        WeakReference<AppManagerActivity> mActivity;
-//
-//        mhandler(AppManagerActivity activity) {
-//            mActivity = new WeakReference<AppManagerActivity>(activity);
-//        }
-//
+//    private Handler handler = new Handler() {
 //        @Override
 //        public void handleMessage(Message msg) {
-//            AppManagerActivity activity = mActivity.get();
 //            if (msg.what == LOAD_DONE) {
-//                activity.app_listview_loading.setVisibility(View.INVISIBLE);
-//                activity.appmanager_listview.setAdapter(new AppManagerAdapter());
+//                app_listview_loading.setVisibility(View.INVISIBLE);
+//                appmanager_listview.setAdapter(new AppManagerAdapter());
 //            }
 //        }
-//    }
+//    };
+
+    private mHandler handler;
+
+    static class mHandler extends Handler {
+        WeakReference<AppManagerActivity> mActivityWeakReference;
+
+        mHandler(AppManagerActivity activity) {
+            mActivityWeakReference = new WeakReference<>(activity);
+        }
+
+        @Override
+        public void handleMessage(Message msg) {
+            AppManagerActivity activity = mActivityWeakReference.get();
+            if (msg.what == LOAD_DONE) {
+                activity.app_listview_loading.setVisibility(View.INVISIBLE);
+                activity.appmanager_listview.setAdapter(mAppManagerAdapter);
+            }
+        }
+    }
 
 
     @Override
@@ -106,6 +112,8 @@ public class AppManagerActivity extends Activity implements AdapterView.OnItemCl
     private void init() {
         pm = this.getPackageManager();
         appInfoProvide = new AppInfoProvide(this);
+        mAppManagerAdapter = new AppManagerAdapter();
+        handler = new mHandler(this);
     }
 
     private void initViews() {
@@ -226,9 +234,9 @@ public class AppManagerActivity extends Activity implements AdapterView.OnItemCl
             }
         }
 
+        //设置popupWindow 窗体大小
         int top = view.getTop();
         int bottom = view.getBottom();
-
         popupWindow = new PopupWindow(contentView, DensityUtil.dip2px(getApplicationContext(), 250), bottom - top
                 - DensityUtil.dip2px(getApplicationContext(), 20));
         popupWindow.setBackgroundDrawable(new ColorDrawable(Color.BLUE));
@@ -257,7 +265,7 @@ public class AppManagerActivity extends Activity implements AdapterView.OnItemCl
                 }
                 break;
             case R.id.btn_launch:
-                startApplicatio();
+                startApplication();
                 break;
             case R.id.btn_share:
                 shareApplication();
@@ -271,6 +279,7 @@ public class AppManagerActivity extends Activity implements AdapterView.OnItemCl
         Log.i(LOG_TAG, "shareApplication ");
         Intent intent = new Intent();
         intent.setAction("android.intent.action.SEND");
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.addCategory("android.intent.category.DEFAULT");
         intent.setType("text/plain");
         intent.putExtra("subject", clickItemAppName);
@@ -288,7 +297,7 @@ public class AppManagerActivity extends Activity implements AdapterView.OnItemCl
         startActivityForResult(intent, 100);
     }
 
-    private void startApplicatio() {
+    private void startApplication() {
         Log.i(LOG_TAG, "startApplicatio ");
         dismissPopupWindow();
         Intent intent = new Intent();
@@ -297,7 +306,7 @@ public class AppManagerActivity extends Activity implements AdapterView.OnItemCl
         try {
             packinfo = pm.getPackageInfo(clickItemPackageName, PackageManager.GET_ACTIVITIES);
             ActivityInfo[] activityinfos = packinfo.activities;
-            Log.i(LOG_TAG, "activityinfos : " + activityinfos);
+            Log.i(LOG_TAG, "activityinfos : " + Arrays.toString(activityinfos));
 
             if (activityinfos != null && activityinfos.length > 0) {
                 String className = activityinfos[0].name;
