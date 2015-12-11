@@ -12,7 +12,7 @@
         android:layout_gravity="center"
         android:layout_marginBottom="10dp"
         android:layout_marginTop="10dp"
-        android:text="Phone Manager"
+        android:text="手机管家"
         android:textSize="20sp"
         android:textStyle="bold" />
 

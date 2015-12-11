@@ -28,10 +28,9 @@ import lang.com.mobilesafe.theftProof.TheftProofActivity;
 import lang.com.mobilesafe.tools.ToolsActivity;
 
 public class MainActivity extends Activity implements AdapterView.OnItemClickListener {
-    private final String LOG_TAG = "mobilesafe";
+    private final String LOG_TAG = "MobileSafe";
 
     private GridView gridView;
-    private TextView textView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +48,6 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
 
     private void initView() {
         gridView = (GridView) findViewById(R.id.gv_main);
-        textView = (TextView) findViewById(R.id.textView);
 
         gridView.setAdapter(new MainGridAdapter(this));
         gridView.setOnItemClickListener(this);
@@ -125,7 +123,6 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
 
     private class MainGridAdapter extends BaseAdapter {
         private LayoutInflater inflater;
-        private Context context;
 
         public final int[] icons = {
                 R.drawable.ic_launcher, R.drawable.ic_launcher, R.drawable.ic_launcher,
@@ -136,22 +133,21 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
         };
 
         public final String[] names = {
-                "TheftProof",
-                "BlackList",
-                "AppManager",
-                "TaskManager",
-                "ServiceManager",
-                "FlowStatistics",
-                "MobileAntivirus",
-                "SystemOptimization",
-                "AppLock",
-                "Tools",
-                "Settings",
+                "防盗追踪",
+                "黑名单",
+                "软件管家",
+                "进程管家",
+                "服务管家",
+                "流量统计",
+                "杀毒",
+                "清理内存",
+                "程序锁",
+                "号码归属地查询",
+                "设置",
                 "Else"
         };
 
         public MainGridAdapter(Context context) {
-            this.context = context;
             inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         }
 
