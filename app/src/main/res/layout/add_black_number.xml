@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tv_black_number_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="添加" />
+
+    <include layout="@layout/default_line_setting" />
+
+    <EditText
+        android:id="@+id/et_add_black_number"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8sp"
+        android:hint="请输入拦截号码"
+        android:inputType="number" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal">
+
+        <CheckBox
+            android:id="@+id/cb_block_phone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="拦截电话" />
+
+        <CheckBox
+            android:id="@+id/cb_block_sms"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="拦截短信" />
+    </LinearLayout>
+</LinearLayout>
