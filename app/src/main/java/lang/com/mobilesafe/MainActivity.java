@@ -22,6 +22,7 @@ import lang.com.mobilesafe.flowstatistics.FlowStatisticsActivity;
 import lang.com.mobilesafe.mobileantivirus.MobileAntivirusActivity;
 import lang.com.mobilesafe.servicemanager.ServiceManagerActivity;
 import lang.com.mobilesafe.settings.SettingsActivity;
+import lang.com.mobilesafe.sqlite.SqlActivity;
 import lang.com.mobilesafe.systemoptimization.SystemOptimizationActivity;
 import lang.com.mobilesafe.taskmanager.TaskManagerActivity;
 import lang.com.mobilesafe.theftProof.TheftProofActivity;
@@ -113,7 +114,8 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
                 startActivity(intent);
                 break;
             case 11:
-                //其他
+                intent = new Intent(this, SqlActivity.class);
+                startActivity(intent);
                 break;
 
             default:
@@ -144,7 +146,7 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
                 "程序锁",
                 "号码归属地查询",
                 "设置",
-                "Else"
+                "数据库测试"
         };
 
         public MainGridAdapter(Context context) {

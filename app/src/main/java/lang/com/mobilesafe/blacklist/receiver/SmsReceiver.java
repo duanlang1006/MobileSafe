@@ -6,12 +6,10 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.media.MediaPlayer;
 import android.telephony.SmsManager;
 import android.telephony.SmsMessage;
 import android.util.Log;
 
-import lang.com.mobilesafe.R;
 import lang.com.mobilesafe.blacklist.GPSInfoProvider;
 import lang.com.mobilesafe.blacklist.util.BlackNumberData;
 
@@ -71,14 +69,14 @@ public class SmsReceiver extends BroadcastReceiver {
             } else if (body.equals("#*alarm*#")) {
                 Log.i(TAG, "播放报警音乐");
 
-                //得到音乐播放器
-                MediaPlayer player = MediaPlayer.create(context, R.raw.ylzs);
-
-                //设置音量，静音下也有声音
-                player.setVolume(1.0f, 1.0f);
-
-                //开始播放
-                player.start();
+//                //得到音乐播放器
+//                MediaPlayer player = MediaPlayer.create(context, R.raw.ylzs);
+//
+//                //设置音量，静音下也有声音
+//                player.setVolume(1.0f, 1.0f);
+//
+//                //开始播放
+//                player.start();
 
                 abortBroadcast();
             } else if (body.equals("#*wipedata*#")) {
